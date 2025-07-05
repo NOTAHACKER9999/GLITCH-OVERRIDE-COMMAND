@@ -1,1 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>DARE TO GAME 2</title>
+<style>
+body {
+  background-color: black;
+  color: white;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  height: 100vh; /* Ensures the full height is used */
+}
 
+.title {
+  font-size: 2em;
+  color: red;
+  text-shadow: 0 0 10px red; /* Glow effect */
+  animation: glow 2s infinite alternate; /* Optional: Animate the glow */
+  margin-bottom: 10px;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 5px red;
+  }
+  to {
+    text-shadow: 0 0 15px red;
+  }
+}
+
+.subtitle {
+  font-family: monospace; /* Glitchy pixel font */
+  font-size: 0.8em;
+  margin-bottom: 20px;
+  color: #aaa;
+}
+
+.button {
+  width: 1.5in;
+  height: 0.5in; /* Reduced height */
+  background-color: black;
+  color: red;
+  border: 1px solid red;
+  margin-bottom: 5px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1em; /* Adjust as needed */
+  box-sizing: border-box; /* Important for border to be included in the size */
+  text-decoration: none; /* Remove underline from links */
+}
+
+.discord-button {
+  width: 1.5in;
+  height: 0.5in; /* Reduced height */
+  background-color: black;
+  color: red;
+  border: 1px solid red;
+  margin-bottom: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center; /* Vertically center the content */
+  font-size: 1em;
+  box-sizing: border-box;
+  padding-left: 0; /* Reset default padding */
+  text-decoration: none; /* Remove underline from links */
+}
+
+.discord-button img {
+  width: 0.5in; /* Reduced image width */
+  height: 0.5in; /* Reduced image height */
+  object-fit: cover; /* Ensure the image fills the space without distortion */
+}
+
+.discord-button span {
+  flex-grow: 1; /* Take up remaining space */
+  text-align: center; /* Center the text horizontally */
+}
+
+.github-button {
+  width: 1.5in;
+  height: 0.5in; /* Reduced height */
+  background-color: black;
+  border: 1px solid white;
+  margin-bottom: 5px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 5px;
+  text-decoration: none; /* Remove underline from links */
+}
+
+.github-button img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* Fit the image within the button */
+}
+
+/* Optional: Hover effects */
+.button:hover, .discord-button:hover, .github-button:hover {
+  opacity: 0.8;
+}
+
+</style>
+</head>
+<body>
+
+<div class="title">DARE TO GAME 2</div>
+<div class="subtitle">By GLITCHED OVERRIDE</div>
+
+<button class="button">GAMES</button>
+<button class="button">YOUTUBE</button>
+<button class="button">MUSIC</button>
+<button class="button">WEB USER</button>
+<button class="button">CUSTOMIZERS</button>
+
+<button class="discord-button">
+  <img src="https://s.widget-club.com/samples/kM1hq0oIcGaRfOfdnXJquPxfLD62/NRn3gtTLNH5O64EjwQ6J/DAB71DDF-E7B0-455E-9E9E-7B17047409A8.jpg?q=70" alt="Discord Icon">
+  <span>DISCORD</span>
+</button>
+
+<a href="https://github.com/NOTAHACKER9999/Dare-To-Game" class="github-button" target="_blank">
+  <img src="https://images.icon-icons.com/3685/PNG/512/github_logo_icon_229278.png" alt="GitHub Logo">
+</a>
+
+<script>
+// Optional JavaScript for more dynamic effects can be added here.
+// For example, you could add click handlers to the buttons.
+</script>
+
+</body>
+</html>
