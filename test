@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>External Interface</title>
+    <style>
+        /* Style the interface as desired */
+        body { font-family: sans-serif; }
+        button { padding: 10px; }
+    </style>
+</head>
+<body>
+    <h1>External Interface</h1>
+    <button>Click Me (External)</button>
+    <p>This HTML is loaded from an external source.</p>
+</body>
+</html>
