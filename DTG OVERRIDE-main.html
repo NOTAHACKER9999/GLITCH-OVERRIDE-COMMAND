@@ -46,17 +46,17 @@ body{
   display:flex;
   flex-wrap: wrap;
   justify-content:center;
-  gap:10px;
+  gap:15px;
   margin-top:30px;
 }
 .btn{
   background:black;
   border:2px solid red;
   color:red;
-  padding:10px 20px;
+  padding:20px 30px;
   cursor:pointer;
   font-family:Montserrat, sans-serif;
-  font-size:14px;
+  font-size:18px;
 }
 .dynamic-btn-wrapper{
   display:flex;
@@ -69,16 +69,16 @@ body{
   border:none;
   cursor:pointer;
   font-weight:bold;
-  padding:0 6px;
-  font-size:14px;
+  padding:0 8px;
+  font-size:16px;
 }
 #overlay{
   display:none;
   position:fixed;
   top:0;
   left:0;
-  width:100%;
-  height:100%;
+  width:100vw;
+  height:100vh;
   background:#000a;
   z-index:200;
 }
@@ -95,7 +95,7 @@ body{
   background:red;
   color:black;
   border:none;
-  font-size:18px;
+  font-size:24px;
   cursor:pointer;
 }
 #consolePanel{
@@ -150,7 +150,7 @@ body{
   border:none;
   cursor:pointer;
 }
-#discordBtn svg{width:40px; height:40px; display:block; margin:auto;}
+#discordBtn svg{width:50px; height:50px; display:block; margin:auto; fill:white;}
 </style>
 </head>
 <body>
@@ -200,27 +200,27 @@ const suggestionsDiv = document.getElementById('suggestions');
 
 const overlay = document.getElementById('overlay');
 const overlayIframe = document.getElementById('overlayIframe');
-document.getElementById('overlayClose').addEventListener('click',()=>overlay.style.display='none');
+document.getElementById('overlayClose').addEventListener('pointerdown',()=>overlay.style.display='none');
 
 // Overlay buttons
-document.getElementById('mediaBtn').addEventListener('click',()=>{
+document.getElementById('mediaBtn').addEventListener('pointerdown',()=>{
   overlay.style.display='block';
   overlayIframe.src="https://raw.githack.com/NOTAHACKER9999/GLITCH-OVERRIDE-COMMAND/DTG-OVERRIDE-FILES/MEDIA%20PLAYER%20OVERRIDE.html";
 });
-document.getElementById('gamesBtn').addEventListener('click',()=>{
+document.getElementById('gamesBtn').addEventListener('pointerdown',()=>{
   overlay.style.display='block';
   overlayIframe.src="https://raw.githack.com/NOTAHACKER9999/GLITCH-OVERRIDE-COMMAND/DTG-OVERRIDE-FILES/DTG%20O-%20G.html";
 });
-document.getElementById('discordBtn').addEventListener('click',()=>window.open('https://discord.gg/QRyjNnkMev','_blank'));
+document.getElementById('discordBtn').addEventListener('pointerdown',()=>window.open('https://discord.gg/QRyjNnkMev','_blank'));
 
 // Draggable console
 const header = document.getElementById('consoleHeader');
 let offsetX, offsetY, isDown=false;
-header.addEventListener('mousedown',e=>{
+header.addEventListener('pointerdown',e=>{
   isDown=true; offsetX=e.clientX-consolePanel.offsetLeft; offsetY=e.clientY-consolePanel.offsetTop;
 });
-document.addEventListener('mouseup',()=>isDown=false);
-document.addEventListener('mousemove',e=>{
+document.addEventListener('pointerup',()=>isDown=false);
+document.addEventListener('pointermove',e=>{
   if(isDown){
     consolePanel.style.left=(e.clientX-offsetX)+'px';
     consolePanel.style.top=(e.clientY-offsetY)+'px';
@@ -229,16 +229,16 @@ document.addEventListener('mousemove',e=>{
 
 // Click OVERRIDE 5x to open console
 let clickCount=0, clickTimer;
-overrideText.addEventListener('click',()=>{
+overrideText.addEventListener('pointerdown',()=>{
   clickCount++;
   clearTimeout(clickTimer);
   clickTimer=setTimeout(()=>clickCount=0,1000);
   if(clickCount>=5){ consolePanel.style.display='block'; clickCount=0; }
 });
-closeConsole.addEventListener('click',()=>consolePanel.style.display='none');
+closeConsole.addEventListener('pointerdown',()=>consolePanel.style.display='none');
 
 // Add button functionality
-document.getElementById('addBtn').addEventListener('click',()=>{
+document.getElementById('addBtn').addEventListener('pointerdown',()=>{
   const name = prompt("Enter button name:");
   if(!name) return;
   const wrapper=document.createElement('div');
@@ -246,7 +246,7 @@ document.getElementById('addBtn').addEventListener('click',()=>{
   const newBtn=document.createElement('button');
   newBtn.classList.add('btn');
   newBtn.textContent=name;
-  newBtn.addEventListener('click',()=>{
+  newBtn.addEventListener('pointerdown',()=>{
     if(overlay.style.display!=='none' && overlayIframe.contentWindow){
       overlayIframe.contentWindow.eval(prompt(`Run JS inside overlay for ${name}:`));
     } else {
@@ -256,7 +256,7 @@ document.getElementById('addBtn').addEventListener('click',()=>{
   const removeBtn=document.createElement('button');
   removeBtn.classList.add('remove-btn');
   removeBtn.textContent='×';
-  removeBtn.addEventListener('click',()=>wrapper.remove());
+  removeBtn.addEventListener('pointerdown',()=>wrapper.remove());
   wrapper.appendChild(newBtn);
   wrapper.appendChild(removeBtn);
   document.getElementById('buttonRow').insertBefore(wrapper,document.getElementById('addBtn'));
@@ -331,7 +331,7 @@ function executeCommand(input){
 }
 
 // Run console
-runConsole.addEventListener('click',()=>executeCommand(consoleInput.value));
+runConsole.addEventListener('pointerdown',()=>executeCommand(consoleInput.value));
 consoleInput.addEventListener('input',()=>{
   const val=consoleInput.value.toLowerCase();
   const available = Object.keys(commands).filter(c=>c.startsWith(val));
@@ -340,4 +340,4 @@ consoleInput.addEventListener('input',()=>{
 consoleInput.addEventListener('keypress',e=>{if(e.key==='Enter') executeCommand(consoleInput.value);});
 </script>
 </body>
-  </html>
+</html>
