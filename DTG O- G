@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DTG O-GAMES</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: #fff;
+      overflow: hidden;
+    }
+    .menu, .game-view {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .tab {
+      background-color: #800000;
+      color: #fff;
+      padding: 15px 30px;
+      margin: 10px;
+      cursor: pointer;
+      border-radius: 8px;
+      font-size: 20px;
+      transition: all 0.2s;
+      width: 80%;
+      max-width: 300px;
+      text-align: center;
+    }
+    .tab:hover {
+      background-color: #ff0000;
+    }
+    .back-btn {
+      background-color: #ff0000;
+      color: #fff;
+      padding: 10px 25px;
+      margin-top: 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 18px;
+    }
+    iframe {
+      border: none;
+      width: 100%;
+      height: 80vh;
+    }
+  </style>
+</head>
+<body>
+
+<div id="mainMenu" class="menu">
+  <h1>Game Launcher</h1>
+
+  <!-- HTML5Games.com (one tab for all games) -->
+  <div class="tab" onclick="loadGame('HTML5Games.com', 'https://html5games.com')">HTML5Games.com</div>
+
+  <!-- Guaranteed Working Games -->
+  <div class="tab" onclick="loadGame('Minecraft Classic', 'https://classic.minecraft.net/')">Minecraft Classic</div>
+  <div class="tab" onclick="loadGame('Chrome Dino', 'https://chromedino.com/')">Chrome Dino</div>
+  <div class="tab" onclick="loadGame('Snow Rider 3D', 'https://drippy-cat.github.io/snowrider3D/')">Snow Rider 3D</div>
+  <div class="tab" onclick="loadGame('HexGL Racing', 'http://hexgl.bkcore.com/')">HexGL Racing</div>
+  <div class="tab" onclick="loadGame('Block Blast', 'https://blockblastgame2.github.io/')">Block Blast</div>
+</div>
+
+<div id="gameView" class="game-view" style="display:none;">
+  <h2 id="gameTitle"></h2>
+  <iframe id="gameFrame" src=""></iframe>
+  <div class="back-btn" onclick="goBack()">Back</div>
+</div>
+
+<script>
+  function loadGame(name, url) {
+    document.getElementById('mainMenu').style.display = 'none';
+    document.getElementById('gameView').style.display = 'flex';
+    document.getElementById('gameTitle').innerText = name;
+    document.getElementById('gameFrame').src = url;
+  }
+
+  function goBack() {
+    document.getElementById('gameFrame').src = '';
+    document.getElementById('gameView').style.display = 'none';
+    document.getElementById('mainMenu').style.display = 'flex';
+  }
+</script>
+
+</body>
+</html>
