@@ -1,343 +1,282 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>DARE TO GAME • OVERRIDE</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glitched Override</title>
 <style>
-body{
-  margin:0;
-  min-height:100vh;
-  display:grid;
-  place-items:center;
-  background:#000;
-  font-family:Montserrat, sans-serif;
+body {
+  background: black;
+  color: red;
+  font-family: 'Courier New', monospace;
+  text-align: center;
+  margin: 0;
+  padding: 0;
 }
-.wrap{text-align:center; user-select:none;}
-.title{
-  font-family: "Montserrat", sans-serif;
-  font-weight: 900;
-  font-size: clamp(3rem, 9vw, 8rem);
-  letter-spacing:.08em;
-  margin:0 0 .8rem;
-  color:black;
-  text-shadow:
-    0 0 5px #ff0000,
-    0 0 10px #ff0000,
-    0 0 20px #ff0000,
-    0 0 30px #ff0000;
-}
-.subtitle{
-  font-family: "Press Start 2P", monospace;
-  font-size: clamp(1rem, 4vw, 2.5rem);
-  text-transform: uppercase;
-  letter-spacing:.15em;
-  transform: skewX(-25deg) rotate(-5deg);
-  display: inline-block;
+/* Title */
+h1, h2 {
+  margin: 10px 0;
   position: relative;
-  color: transparent;
-  text-shadow:
-    0 0 3px #ff0000,
-    0 0 6px #ff0000;
-  overflow: hidden;
+  color: black;
+  text-shadow: 
+    0 0 15px red,
+    0 0 30px red,
+    0 0 45px red;
+  -webkit-text-fill-color: black;
+  -webkit-background-clip: text;
+  font-style: italic;
 }
-#buttonRow{
-  display:flex;
+h1 { font-size: 5em; }
+h2 { font-size: 3em; }
+/* Buttons */
+#buttonContainer {
+  display: flex;
   flex-wrap: wrap;
-  justify-content:center;
-  gap:15px;
-  margin-top:30px;
+  justify-content: center;
+  margin: 20px auto;
+  gap: 10px;
+  max-width: 90%;
 }
-.btn{
-  background:black;
-  border:2px solid red;
-  color:red;
-  padding:20px 30px;
-  cursor:pointer;
-  font-family:Montserrat, sans-serif;
-  font-size:18px;
+.glow-button {
+  background: black;
+  border: 2px solid red;
+  color: red;
+  padding: 12px 25px;
+  font-size: 1.2em;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: all 0.3s;
+  font-family: Arial, sans-serif;
 }
-.dynamic-btn-wrapper{
-  display:flex;
-  align-items:center;
-  gap:5px;
+.glow-button:hover {
+  background: red;
+  color: black;
 }
-.remove-btn{
-  background:red;
-  color:black;
-  border:none;
-  cursor:pointer;
-  font-weight:bold;
-  padding:0 8px;
-  font-size:16px;
+/* Overlay */
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 1000;
+  overflow: auto;
 }
-#overlay{
-  display:none;
-  position:fixed;
-  top:0;
-  left:0;
-  width:100vw;
-  height:100vh;
-  background:#000a;
-  z-index:200;
+.overlay-content {
+  background: black;
+  border: 2px solid red;
+  margin: 5% auto;
+  padding: 20px;
+  width: 90%;
+  height: 80%;
+  overflow: auto;
+  color: red;
 }
-#overlay iframe{
-  width:100%;
-  height:100%;
-  border:none;
+.close {
+  color: red;
+  float: right;
+  font-size: 28px;
+  cursor: pointer;
 }
-#overlayClose{
-  position:absolute;
-  top:10px;
-  right:10px;
-  z-index:201;
-  background:red;
-  color:black;
-  border:none;
-  font-size:24px;
-  cursor:pointer;
+/* Console */
+#consoleOverlay {
+  display: none;
+  position: fixed;
+  top: 50px; left: 50px;
+  width: 400px;
+  height: 300px;
+  background: black;
+  border: 2px solid red;
+  z-index: 2000;
+  padding: 10px;
+  overflow-y: auto;
+  resize: both;
 }
-#consolePanel{
-  position:fixed;
-  top:100px;
-  left:100px;
-  width:500px;
-  height:400px;
-  background:#111;
-  border:2px solid #ff0000;
-  display:none;
-  z-index:300;
-  color:#fff;
-  font-family:monospace;
-  padding:10px;
-  resize:both;
-  overflow:auto;
+#consoleInput {
+  width: 90%;
+  background: black;
+  color: red;
+  border: 1px solid red;
 }
-#consoleHeader{
-  cursor:move;
-  background:#222;
-  padding:5px;
-  font-weight:bold;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+#consoleLog {
+  height: 200px;
+  overflow-y: auto;
+  text-align: left;
+  font-size: 0.9em;
 }
-#consoleInput{
-  flex:0;
-  background:#000;
-  color:#0f0;
-  border:1px solid #ff0000;
-  padding:5px;
+/* Autocomplete */
+#suggestions {
+  position: absolute;
+  background: black;
+  color: red;
+  border: 1px solid red;
+  max-height: 100px;
+  overflow-y: auto;
+  display: none;
+  z-index: 2100;
+  text-align: left;
 }
-#suggestions{
-  color:#0f0;
-  font-size:12px;
-  max-height:60px;
-  overflow:auto;
-  margin-top:2px;
+/* Discord Button */
+#discordButton {
+  margin-top: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
-#consoleOutput{
-  margin-top:5px;
-  font-size:12px;
-  color:#0f0;
-  max-height:60px;
-  overflow:auto;
+#discordButton img {
+  width: 40px;
+  height: 40px;
 }
-#discordBtn{
-  margin-top:40px;
-  background:none;
-  border:none;
-  cursor:pointer;
-}
-#discordBtn svg{width:50px; height:50px; display:block; margin:auto; fill:white;}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <h1 class="title">DARE TO GAME</h1>
-  <div class="subtitle" data-text="OVERRIDE">OVERRIDE</div>
+<h1>DARE TO GAME</h1>
+<h2>OVERRIDE</h2>
 
-  <div id="buttonRow">
-    <button class="btn" id="mediaBtn">Media Player</button>
-    <button class="btn" id="gamesBtn">Games</button>
-    <button class="btn" id="addBtn">+</button>
-  </div>
-
-  <button id="discordBtn">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 71 55">
-      <path d="M60.104 4.552A58.939 58.939 0 0045.49.727a.085.085 0 00-.086.042c-.538.985-1.136 2.273-1.556 3.284a55.324 55.324 0 00-16.7 0 40.005 40.005 0 00-1.578-3.284.084.084 0 00-.085-.042C10.479.727-4.016 4.552-4.016 4.552S-4.524 21.454-1.61 38.17c0 0 4.374 8.172 15.959 8.172 0 0 1.107-.13-1.07-.797 0 0-3.073-1.113-4.49-2.01 0 0-.308-.167-.53-.29.309.293.558.545.807.797 0 0 9.123 5.852 20.14 5.852 11.013 0 20.14-5.852 20.14-5.852.25-.252.498-.504.807-.797-.222.123-.53.29-.53.29-1.42.897-4.49 2.01-4.49 2.01-2.177.667-1.07.797-1.07.797 11.584 0 15.959-8.172 15.959-8.172 2.918-16.717-1.61-33.618-1.61-33.618zM23.725 37.126c-3.137 0-5.714-2.87-5.714-6.396 0-3.528 2.553-6.397 5.714-6.397 3.172 0 5.736 2.87 5.714 6.397 0 3.526-2.542 6.396-5.714 6.396zm23.552 0c-3.137 0-5.714-2.87-5.714-6.396 0-3.528 2.553-6.397 5.714-6.397 3.172 0 5.736 2.87 5.714 6.397 0 3.526-2.542 6.396-5.714 6.396z"/>
-    </svg>
-  </button>
+<div id="buttonContainer">
+  <button class="glow-button" onclick="openOverlay('media')">Media Player</button>
+  <button class="glow-button" onclick="openOverlay('games')">Games</button>
+  <button id="addButton" class="glow-button">+</button>
 </div>
 
-<div id="overlay">
-  <iframe id="overlayIframe"></iframe>
-  <button id="overlayClose">×</button>
+<div id="overlay" class="overlay">
+  <div class="overlay-content">
+    <span class="close" onclick="closeOverlay()">&times;</span>
+    <div id="overlayContent">Loading...</div>
+  </div>
 </div>
 
-<div id="consolePanel">
-  <div id="consoleHeader">
-    Console
-    <button id="closeConsole">×</button>
-  </div>
-  <div style="margin-top:5px; display:flex; flex-direction:column; height:calc(100% - 30px);">
-    <input id="consoleInput" placeholder="Type commands here" />
-    <div id="suggestions"></div>
-    <button id="runConsole" class="btn" style="margin-top:5px;">Run</button>
-    <div id="consoleOutput"></div>
-  </div>
+<div id="consoleOverlay">
+  <span class="close" onclick="document.getElementById('consoleOverlay').style.display='none'">&times;</span>
+  <h3>Console</h3>
+  <div id="consoleLog"></div>
+  <input id="consoleInput" placeholder="Enter command..." autocomplete="off">
+  <div id="suggestions"></div>
+  <button onclick="runCommand()">Run</button>
 </div>
+
+<button id="discordButton" onclick="window.open('https://discord.gg/QRyjNnkMev','_blank')">
+  <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/discord.svg" alt="Discord">
+</button>
 
 <script>
-const overrideText = document.querySelector('.subtitle');
-const consolePanel = document.getElementById('consolePanel');
-const consoleInput = document.getElementById('consoleInput');
-const runConsole = document.getElementById('runConsole');
-const closeConsole = document.getElementById('closeConsole');
-const consoleOutput = document.getElementById('consoleOutput');
-const suggestionsDiv = document.getElementById('suggestions');
-
 const overlay = document.getElementById('overlay');
-const overlayIframe = document.getElementById('overlayIframe');
-document.getElementById('overlayClose').addEventListener('pointerdown',()=>overlay.style.display='none');
+const overlayContent = document.getElementById('overlayContent');
+const consoleInput = document.getElementById('consoleInput');
+const suggestionsBox = document.getElementById('suggestions');
 
-// Overlay buttons
-document.getElementById('mediaBtn').addEventListener('pointerdown',()=>{
-  overlay.style.display='block';
-  overlayIframe.src="https://raw.githack.com/NOTAHACKER9999/GLITCH-OVERRIDE-COMMAND/DTG-OVERRIDE-FILES/MEDIA%20PLAYER%20OVERRIDE.html";
-});
-document.getElementById('gamesBtn').addEventListener('pointerdown',()=>{
-  overlay.style.display='block';
-  overlayIframe.src="https://raw.githack.com/NOTAHACKER9999/GLITCH-OVERRIDE-COMMAND/DTG-OVERRIDE-FILES/DTG%20O-%20G.html";
-});
-document.getElementById('discordBtn').addEventListener('pointerdown',()=>window.open('https://discord.gg/QRyjNnkMev','_blank'));
+const commands = [
+  'proxy <url>', 'reset all', 'reset buttons', 'reset overlay', 
+  'run <js>', 'party', 'color <element> <color>', 
+  'font <element> <font-family>', 'size <element> <size>', 'help'
+];
 
-// Draggable console
-const header = document.getElementById('consoleHeader');
-let offsetX, offsetY, isDown=false;
-header.addEventListener('pointerdown',e=>{
-  isDown=true; offsetX=e.clientX-consolePanel.offsetLeft; offsetY=e.clientY-consolePanel.offsetTop;
-});
-document.addEventListener('pointerup',()=>isDown=false);
-document.addEventListener('pointermove',e=>{
-  if(isDown){
-    consolePanel.style.left=(e.clientX-offsetX)+'px';
-    consolePanel.style.top=(e.clientY-offsetY)+'px';
+async function openOverlay(type, customUrl=null){
+  overlay.style.display="block";
+  let url = customUrl||"";
+  if(!customUrl){
+    if(type==="media") url="https://raw.githubusercontent.com/NOTAHACKER9999/GLITCH-OVERRIDE-COMMAND/refs/heads/DTG-OVERRIDE-FILES/MEDIA%20PLAYER%20OVERRIDE.html";
+    else if(type==="games") url="https://raw.githubusercontent.com/NOTAHACKER9999/GLITCH-OVERRIDE-COMMAND/refs/heads/DTG-OVERRIDE-FILES/DTG%20O-%20G.html";
   }
-});
-
-// Click OVERRIDE 5x to open console
-let clickCount=0, clickTimer;
-overrideText.addEventListener('pointerdown',()=>{
-  clickCount++;
-  clearTimeout(clickTimer);
-  clickTimer=setTimeout(()=>clickCount=0,1000);
-  if(clickCount>=5){ consolePanel.style.display='block'; clickCount=0; }
-});
-closeConsole.addEventListener('pointerdown',()=>consolePanel.style.display='none');
-
-// Add button functionality
-document.getElementById('addBtn').addEventListener('pointerdown',()=>{
-  const name = prompt("Enter button name:");
-  if(!name) return;
-  const wrapper=document.createElement('div');
-  wrapper.classList.add('dynamic-btn-wrapper');
-  const newBtn=document.createElement('button');
-  newBtn.classList.add('btn');
-  newBtn.textContent=name;
-  newBtn.addEventListener('pointerdown',()=>{
-    if(overlay.style.display!=='none' && overlayIframe.contentWindow){
-      overlayIframe.contentWindow.eval(prompt(`Run JS inside overlay for ${name}:`));
-    } else {
-      alert(`Button ${name} clicked`);
-    }
-  });
-  const removeBtn=document.createElement('button');
-  removeBtn.classList.add('remove-btn');
-  removeBtn.textContent='×';
-  removeBtn.addEventListener('pointerdown',()=>wrapper.remove());
-  wrapper.appendChild(newBtn);
-  wrapper.appendChild(removeBtn);
-  document.getElementById('buttonRow').insertBefore(wrapper,document.getElementById('addBtn'));
-});
-
-// Command system
-let partyInterval=null;
-const defaultState = {
-  bodyBg: "#000",
-  titleText: "DARE TO GAME",
-  titleColor: "black",
-  titleFontSize: "clamp(3rem, 9vw, 8rem)",
-  titleLetterSpacing: ".08em",
-  titleShadow: `
-    0 0 5px #ff0000,
-    0 0 10px #ff0000,
-    0 0 20px #ff0000,
-    0 0 30px #ff0000
-  `,
-  subtitleColor: "transparent",
-  subtitleFontSize: "clamp(1rem, 4vw, 2.5rem)",
-  subtitleLetterSpacing: ".15em",
-  subtitleShadow: "0 0 3px #ff0000, 0 0 6px #ff0000",
-};
-const commands = {
-  changeBackground:(color)=>{(this.targetDoc||document).body.style.background=color; return `Background changed to ${color}`;},
-  changeTitle:(text)=>{let t=(this.targetDoc||document).querySelector('.title'); if(t)t.textContent=text; return `Title changed to "${text}"`;},
-  changeTitleColor:(color)=>{let t=(this.targetDoc||document).querySelector('.title'); if(t)t.style.color=color; return `Title color changed to ${color}`;},
-  changeSubtitleColor:(color)=>{let s=(this.targetDoc||document).querySelector('.subtitle'); if(s)s.style.color=color; return `Subtitle color changed to ${color}`;},
-  setOverlayProxy:(url)=>{overlayIframe.src=url; return `Overlay URL set to: ${url}`;},
-  party:(action)=>{ 
-    const doc=(this.targetDoc||document);
-    if(action==='off'){ clearInterval(partyInterval); doc.body.style.background='#000'; const neon=doc.querySelector('.title'); if(neon) neon.style.color='black'; const subtitle=doc.querySelector('.subtitle'); if(subtitle) subtitle.style.color='transparent'; return "Party mode turned off!"; }
-    if(partyInterval) clearInterval(partyInterval);
-    const colors=["red","orange","yellow","lime","blue","purple","pink"];
-    partyInterval=setInterval(()=>{
-      const c1=colors[Math.floor(Math.random()*colors.length)];
-      const c2=colors[Math.floor(Math.random()*colors.length)];
-      const c3=colors[Math.floor(Math.random()*colors.length)];
-      doc.body.style.background=c1;
-      const neon=doc.querySelector('.title'); if(neon) neon.style.color=c3;
-      const subtitle=doc.querySelector('.subtitle'); if(subtitle) subtitle.style.color=colors[Math.floor(Math.random()*colors.length)];
-    },200);
-    return "Party mode activated!";
-  },
-  resetAll:function(){ 
-    const doc=this.targetDoc||document;
-    let t=doc.querySelector('.title'); if(t){t.textContent=defaultState.titleText; t.style.color=defaultState.titleColor; t.style.fontSize=defaultState.titleFontSize; t.style.letterSpacing=defaultState.titleLetterSpacing; t.style.textShadow=defaultState.titleShadow;}
-    let s=doc.querySelector('.subtitle'); if(s){s.style.color=defaultState.subtitleColor; s.style.fontSize=defaultState.subtitleFontSize; s.style.letterSpacing=defaultState.subtitleLetterSpacing; s.style.textShadow=defaultState.subtitleShadow;}
-    doc.body.style.background=defaultState.bodyBg;
-    doc.querySelectorAll('#buttonRow .dynamic-btn-wrapper').forEach(b=>b.remove());
-    if(partyInterval) clearInterval(partyInterval);
-    return "All reset!";
-  }
-};
-
-function executeCommand(input){
-  if(!input) return;
   try{
-    const targetDoc = (overlay.style.display!=='none' && overlayIframe.contentDocument)? overlayIframe.contentDocument : document;
-    const [cmd,...args] = input.split(" ");
-    if(commands[cmd]){
-      const result = commands[cmd].apply({targetDoc}, args.join(" "));
-      consoleOutput.textContent = result;
-    } else {
-      targetDoc.defaultView.eval(input);
-      consoleOutput.textContent="Executed JS!";
-    }
-  } catch(e){
-    consoleOutput.textContent="Error: "+e.message;
-  }
+    const res=await fetch(url);
+    const html=await res.text();
+    overlayContent.innerHTML=html;
+  }catch(e){ overlayContent.innerHTML="Error loading content.";}
 }
 
-// Run console
-runConsole.addEventListener('pointerdown',()=>executeCommand(consoleInput.value));
-consoleInput.addEventListener('input',()=>{
-  const val=consoleInput.value.toLowerCase();
-  const available = Object.keys(commands).filter(c=>c.startsWith(val));
-  suggestionsDiv.textContent = available.join(', ');
+function closeOverlay(){
+  overlay.style.display="none";
+  overlayContent.innerHTML="";
+}
+
+let clickCount=0;
+document.querySelector("h1").addEventListener("click",()=>{
+  clickCount++;
+  if(clickCount>=5){
+    document.getElementById("consoleOverlay").style.display="block";
+    clickCount=0;
+  }
+  setTimeout(()=>clickCount=0,2000);
 });
-consoleInput.addEventListener('keypress',e=>{if(e.key==='Enter') executeCommand(consoleInput.value);});
+
+function log(msg){
+  const consoleLog=document.getElementById("consoleLog");
+  consoleLog.innerHTML+=`<div>> ${msg}</div>`;
+  consoleLog.scrollTop=consoleLog.scrollHeight;
+}
+
+// Autocomplete suggestions
+consoleInput.addEventListener('input',()=>{
+  const val = consoleInput.value.toLowerCase();
+  suggestionsBox.innerHTML = '';
+  if(!val){ suggestionsBox.style.display='none'; return; }
+  let matches = commands.filter(c => c.toLowerCase().startsWith(val));
+  if(matches.length>0){
+    matches.forEach(m=>{
+      let div = document.createElement('div');
+      div.textContent = m;
+      div.style.cursor = 'pointer';
+      div.onclick = ()=>{ consoleInput.value = m; suggestionsBox.style.display='none'; };
+      suggestionsBox.appendChild(div);
+    });
+    suggestionsBox.style.display='block';
+    suggestionsBox.style.top = (consoleInput.offsetTop + consoleInput.offsetHeight) + 'px';
+    suggestionsBox.style.left = consoleInput.offsetLeft + 'px';
+    suggestionsBox.style.width = consoleInput.offsetWidth + 'px';
+  } else suggestionsBox.style.display='none';
+});
+
+function runCommand(){
+  let cmd=consoleInput.value.trim();
+  log(cmd);
+
+  if(cmd.startsWith("proxy ")){
+    let url=cmd.replace("proxy ","");
+    openOverlay("custom",url); log("Proxy opened: "+url);
+  } 
+  else if(cmd==="reset all"){ document.body.removeAttribute("style"); log("All reset."); }
+  else if(cmd==="reset buttons"){ document.getElementById("buttonContainer").innerHTML=""; log("Buttons reset."); }
+  else if(cmd==="reset overlay"){ overlayContent.innerHTML=""; log("Overlay reset."); }
+  else if(cmd.startsWith("run ")){
+    try{
+      let jsCode = cmd.replace("run ","");
+      eval(jsCode);
+      log("Executed: "+jsCode);
+    }catch(e){ log("Error: "+e.message); }
+  }
+  else if(cmd==="party"){
+    document.body.style.backgroundColor = `hsl(${Math.random()*360},100%,50%)`;
+    log("Party mode!");
+  }
+  else if(cmd.startsWith("color ")){
+    let [_, el, c] = cmd.split(" ");
+    document.querySelectorAll(el).forEach(e=>e.style.color=c);
+    log(`Changed ${el} color to ${c}`);
+  }
+  else if(cmd.startsWith("font ")){
+    let [_, el, ...f] = cmd.split(" ");
+    document.querySelectorAll(el).forEach(e=>e.style.fontFamily=f.join(" "));
+    log(`Changed ${el} font to ${f.join(" ")}`);
+  }
+  else if(cmd.startsWith("size ")){
+    let [_, el, s] = cmd.split(" ");
+    document.querySelectorAll(el).forEach(e=>e.style.fontSize=s);
+    log(`Changed ${el} size to ${s}`);
+  }
+  else if(cmd==="help"){
+    log("Commands: proxy <url>, reset all, reset buttons, reset overlay, run <js>, party, color <element> <color>, font <element> <font-family>, size <element> <size>, help");
+  }
+  else{ log("Unknown command. Type 'help'."); }
+
+  consoleInput.value="";
+  suggestionsBox.style.display='none';
+}
+
+document.getElementById("addButton").addEventListener("click",()=>{
+  let url=prompt("Enter a GitHub raw URL or link:");
+  if(url) openOverlay("custom",url);
+});
 </script>
 </body>
-</html>
+  </html>
