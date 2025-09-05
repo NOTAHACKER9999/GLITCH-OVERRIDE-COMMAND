@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <!-- Visible tab title (this will be what shows in history / tab for most browsers) -->
+  <title>Lol Imagine trying to see this </title>
+
+  <style>
+    /* Black background, centered content, mobile-friendly */
+    html,body {
+      height: 100%;
+      margin: 0;
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      background: #000;
+      color: #fff;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .wrap {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      padding: 24px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+    .app-name {
+      font-size: clamp(28px, 6vw, 64px);
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: #f2f2f2;
+    }
+    .subtitle {
+      font-size: clamp(12px, 2.5vw, 18px);
+      color: #bdbdbd;
+    }
+    .note {
+      margin-top: 18px;
+      font-size: 13px;
+      color: #8a8a8a;
+    }
+    button {
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: none;
+      background: #222;
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(255,255,255,0.02), inset 0 -2px 0 rgba(255,255,255,0.01);
+    }
+    button:active { transform: translateY(1px); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <!-- This is the program's true, visible name on the page -->
+    <div class="app-name">SCHOOL GAMES</div>
+    <div class="subtitle">A simple demo — the visible program name is "SCHOOL GAMES".</div>
+
+    <!-- button to explicitly add another history entry with the custom title -->
+    <button id="pushBtn">Push custom URL to history</button>
+
+    <div class="note">Open your browser history or look at the tab title — it will show the custom title.</div>
+  </div>
+
+  <script>
+    // exact title the user requested (note the trailing space preserved)
+    const fakeTitle = "Lol Imagine trying to see this ";
+
+    // Set the document title (this is what most browsers show in history and tabs)
+    document.title = fakeTitle;
+
+    // Push the current state into history with a friendly URL path (optional)
+    // Many browsers ignore the title parameter of pushState, but they honor document.title.
+    // The URL here can be anything you want (example: /school-games-hidden)
+    try {
+      const url = "/school-games-hidden";
+      history.replaceState({app: "SCHOOL GAMES"}, fakeTitle, url);
+      // also push an additional entry so the history definitely contains it
+      history.pushState({app: "SCHOOL GAMES", pushed: true}, fakeTitle, url + "?v=1");
+    } catch (e) {
+      // some environments (file://) may not allow pushState; fail silently
+      console.warn("history API not available:", e);
+    }
+
+    // Button to manually push another custom URL entry (useful for testing history list)
+    document.getElementById("pushBtn").addEventListener("click", () => {
+      const extraUrl = "/school-games-hidden/" + Date.now();
+      try {
+        history.pushState({app: "SCHOOL GAMES", ts: Date.now()}, fakeTitle, extraUrl);
+        alert("Added history entry: " + extraUrl + "\nCheck your browser history or tab title.");
+      } catch (err) {
+        alert("Could not push state. Browser may restrict this on local files.");
+      }
+    });
+
+    // Optional: handle back/forward navigation to keep the document title consistent
+    window.addEventListener("popstate", () => {
+      document.title = fakeTitle;
+    });
+  </script>
+</body>
+</html>
