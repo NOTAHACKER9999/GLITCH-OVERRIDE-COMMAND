@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CrazyGames Overlay</title>
+<style>
+  body { margin: 0; font-family: sans-serif; }
+  #overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  #overlay iframe {
+    width: 100%; height: 100%;
+    border: none;
+  }
+  #closeBtn {
+    position: absolute;
+    top: 10px; right: 20px;
+    font-size: 30px;
+    color: red;
+    cursor: pointer;
+    z-index: 10000;
+  }
+</style>
+</head>
+<body>
+
+<div id="overlay">
+  <div id="closeBtn">&times;</div>
+  <iframe src=""></iframe>
+</div>
+
+<script>
+const overlay = document.getElementById('overlay');
+const iframe = overlay.querySelector('iframe');
+const closeBtn = document.getElementById('closeBtn');
+
+// Replace with your worker URL (custom domain recommended)
+const workerURL = 'https://crazygamesunblocker.th15isar0bothi.workers.dev/';
+
+// Automatically load overlay on page load
+window.addEventListener('load', () => {
+  iframe.src = workerURL;
+  overlay.style.display = 'flex';
+});
+
+closeBtn.addEventListener('click', () => {
+  iframe.src = '';
+  overlay.style.display = 'none';
+});
+</script>
+
+</body>
+</html>
