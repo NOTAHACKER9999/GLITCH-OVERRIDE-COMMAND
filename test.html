@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CrazyGames Overlay Loader</title>
+  <title>CrazyGames Overlay Offline</title>
   <style>
     body { margin: 0; font-family: sans-serif; }
     #overlay {
@@ -24,8 +24,7 @@
     }
     #closeBtn {
       position: absolute;
-      top: 15px;
-      right: 20px;
+      top: 15px; right: 20px;
       font-size: 28px;
       color: red;
       cursor: pointer;
@@ -51,28 +50,16 @@
   const openBtn = document.getElementById('openBtn');
   const closeBtn = document.getElementById('closeBtn');
 
-  // URL of the HTML you want to fetch
-  const gameHTML = "https://raw.githubusercontent.com/NOTAHACKER9999/SCHOOL-OVERRIDE/refs/heads/main/School%20Override/Parts/Game%20websites/Crazygames.com.html";
+  // Offline: Embed the entire CrazyGames HTML inside a Blob
+  const crazyGamesHTML = `https://raw.githubusercontent.com/NOTAHACKER9999/SCHOOL-OVERRIDE/refs/heads/main/School%20Override/Parts/Game%20websites/Crazygames.com.html`;
 
-  // Open overlay and load fetched HTML
-  openBtn.addEventListener('click', async () => {
-    try {
-      const res = await fetch(gameHTML);
-      const text = await res.text();
-
-      // Use Blob + objectURL to safely load fetched HTML into iframe
-      const blob = new Blob([text], { type: "text/html" });
-      const url = URL.createObjectURL(blob);
-
-      gameFrame.src = url;
-      overlay.style.display = "flex";
-    } catch (err) {
-      alert("Failed to load CrazyGames HTML");
-      console.error(err);
-    }
+  openBtn.addEventListener('click', () => {
+    const blob = new Blob([crazyGamesHTML], { type: "text/html" });
+    const url = URL.createObjectURL(blob);
+    gameFrame.src = url;
+    overlay.style.display = "flex";
   });
 
-  // Close overlay
   closeBtn.addEventListener('click', () => {
     gameFrame.src = "";
     overlay.style.display = "none";
